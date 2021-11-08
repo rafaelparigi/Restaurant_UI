@@ -1,0 +1,8 @@
+<!--we want to send the data passed through the form with the post request, so we add name attributes, 
+that will be sent with the body of the request, and will be used to identify the form fields -->
+<h2>Create New Restaurant</h2>
+<form method="post" action="/restaurants">
+    <input placeholder="New restaurant name" type="text" name="name"/>
+    <input placeholder="Restaurant image" type="text" name="imagelink"/>   
+    <input type="submit"/>
+</form>

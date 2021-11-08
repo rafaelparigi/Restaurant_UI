@@ -1,0 +1,26 @@
+<section id="numOfMenus">
+    There are {{menus.length}} menus.
+</section>
+
+<a href='/restaurants/{{resto_id}}/menus/create'>Create menu</a>
+
+<section>
+    <!--//TO GET menus for a specific restaurant-->
+    {{#each menus}}
+        <article id="article-{{this.id}}">
+            <h2 >{{this.id}}</h2>
+            <h2>{{this.title}}</h2>
+
+            <!--//To view the menu items of a specific restaurant-->
+            <a href='/menus/{{id}}/menu_items'>See items</a>
+
+            <!--//TO DELETE a menu for a specific restaurant-->
+            <button type="button" data-id={{this.id}} onclick="deleteMenu({{this.RestaurantId}}, {{this.id}})">
+                Delete menu
+            </button>
+        </article>
+    {{/each}}
+    <script>
+        let numOfMenus = {{menus.length}};
+    </script>
+</section>
