@@ -37,11 +37,11 @@ router.get('/create', async (req, res) => {
     res.render('restaurant/create-restaurant');
 });
 
-//this route returns HTML to update a restaurant
-router.get('/:id/update', async (req, res) => {
-    const restaurant = await Restaurant.findOne({where: {id: req.params.id}});
-    res.render('restaurant/update-restaurant', { restaurant });
-});
+// //this route returns HTML to update a restaurant
+// router.get('/:id/update', async (req, res) => {
+//     const restaurant = await Restaurant.findOne({where: {id: req.params.id}});
+//     res.render('restaurant/update-restaurant', { restaurant });
+// });
 
 // router.put('/:id', async (req, res) => {
 //     try {
