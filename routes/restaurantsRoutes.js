@@ -1,4 +1,5 @@
 //Here we are scoping the routes out for all urls that begin with restaurants
+const { json } = require('express');
 const express = require('express');
 
 //creates a new instance of a router object
@@ -15,7 +16,8 @@ router.post('/', async (req, res, next) => {
             body: JSON.stringify(req.body),
             headers: { 'Content-type': 'application/json'}
         });
-        res.redirect('restaurant/restaurant-list');
+        console.log(JSON.stringify(req.body));
+        res.redirect('/restaurants');
     } catch(error) {
         return next(error);
     }
@@ -26,6 +28,7 @@ router.get('/', async (req, res, next) => {
     try {
         const response = await fetch(url);
         const restaurants = await response.json();
+        console.log(JSON.stringify(restaurants));
         res.render('restaurant/restaurant-list', { restaurants });
     } catch (error) {
         return next(error);
@@ -53,53 +56,34 @@ router.get('/create', async (req, res) => {
 //     };
 // });
 
-// router.delete('/:id', async (req, res) => {
-//     try {
-//         const response = await fetch(`${url}/${req.params.id}`, {
-//             method: 'DELETE',
-//             body: JSON.stringify(req.body),
-//             headers: { 'Content-type': 'application/json'}
-//         });
-//         res.redirect('restaurant/restaurant-list');
-//     } catch(error) {
-//         return next(error);
-//     };
-// });
+router.post('/:restaurant_id/menus', async (req, res, next) => {
+    try {
+        const resto_id = req.params.restaurant_id;
+        const response = await fetch(`${url}/${resto_id}/menus`, {
+            method: 'POST',
+            body: JSON.stringify(req.body),
+            headers: { 'Content-type': 'application/json' }
+        });
+        res.redirect(`/restaurants/${resto_id}/menus`);
+    } catch(error) {
+        return next(error);
+    }
+});
 
-// router.post('/:restaurant_id/menus', async (req, res) => {
-//     try {
-//         const restaurant = await Restaurant.findOne({where: {id: req.params.restaurant_id}});
-//         if (restaurant) {
-//             const menu = await Menu.create(req.body);
-//             await restaurant.addMenu(menu);
-//             res.redirect(`/restaurants/${req.params.restaurant_id}/menus`);
-//         } else {
-//             res.status(400).send(`${req.params.restaurant_id} does not exist`);
-//         }
-//     } catch(error) {
-//         res.status(400).send(error.message);
-//     }
-// });
+router.get('/:id/menus', async (req, res, next) => {
+    try {
+        const resto_id = req.params.id;
+        const response = await fetch(`${url}/${resto_id}/menus`);
+        const menus = await response.json();
+        res.render('menu/menu-list', { resto_id, menus });
+    } catch (error) {
+        return next(error);
+    };
+});
 
-// router.get('/:id/menus', async (req, res) => {
-//     const menus = await Menu.findAll({where: {RestaurantId: req.params.id}});
-//     const resto_id = req.params.id;
-//     res.render('menu/menu-list', { menus, resto_id });
-// });
-
-// router.get('/:id/menus/create', async (req, res) => {
-//     const menus = await Menu.findAll({where: {RestaurantId: req.params.id}});
-//     const resto_id = req.params.id;
-//     res.render('menu/create-menu', { menus, resto_id });
-// });
-
-// router.delete('/:restaurant_id/menus/:menu_id', async (req, res) => {
-//     try {
-//         await Menu.destroy({where: {id: req.params.menu_id, RestaurantId: req.params.restaurant_id}});
-//         res.status(201).send('deleled menu with ID ' + req.params.menu_id);
-//     } catch(e) {
-//         res.status(400).send(e.message);
-//     };
-// });
+router.get('/:id/menus/create', async (req, res) => {
+    const resto_id = req.params.id;
+    res.render('menu/create-menu', { resto_id });
+});
 
 module.exports = router;

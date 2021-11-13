@@ -3,6 +3,9 @@ const express = require('express');
 const app = express(); //app that handles http requests
 const port = 8001;
 
+const cors = require('cors');
+app.use(cors());
+
 //handlebars setup
 const Handlebars = require('handlebars');
 const expressHandlebars = require('express-handlebars');
